@@ -12,16 +12,21 @@ React web app (Vite) with Tailwind CSS **v4**.
 ```bash
 git clone https://github.com/OceanGuard-Eye/oceanguard-frontend.git
 cd oceanguard-frontend
-2) Install dependencies
+```
+### 2) Install dependencies
+```bash
 npm install
-3) Run dev server
+```
+### 3) Run dev server
+```bash
 npm run dev
 Open the URL shown in the terminal (usually http://localhost:5173).
-
-4) Build for production
+```
+### 4) Build for production
+```bash
 npm run build
 npm run preview
-
+```
 Tech Stack
 React + Vite
 
@@ -31,8 +36,8 @@ Tailwind CSS: v4 (CSS-first)
 
 Tailwind v4 notes
 Global Tailwind import is in src/index.css:
-```
-Project structure
+
+### Project structure
 ```
 src/
   components/        # reusable UI components (TopBar, BottomBar, etc.)
@@ -41,6 +46,8 @@ src/
   routes/            # router setup (default route -> /map)
   index.css          # Tailwind import + theme tokens
   main.tsx           # app entry
+```
+```
 Routes
 /map (default)
 
