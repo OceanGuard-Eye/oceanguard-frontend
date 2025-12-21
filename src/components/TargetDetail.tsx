@@ -15,8 +15,9 @@ export default function TargetDetail({
 }: TargetDetailProps) {
   return (
     <div 
-      className="w-full bg-white/95 backdrop-blur-md rounded-xl shadow-2xl p-3 sm:p-4 space-y-3 sm:space-y-4 border border-gray-100 animate-[fadeIn_0.3s_ease-out] will-change-transform"
+      className="w-full bg-white/95 backdrop-blur-md rounded-xl shadow-2xl p-3 sm:p-4 space-y-3 sm:space-y-4 border border-gray-100 animate-[fadeIn_0.25s_ease-out] will-change-transform cursor-pointer"
       style={{ transform: 'translateZ(0)' }}
+      onClick={onClose}
     >
       {/* Top section with map and location */}
       <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
@@ -81,7 +82,10 @@ export default function TargetDetail({
               )}
               
               <button
-                onClick={onClose}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onClose?.()
+                }}
                 className="text-red-500 hover:text-red-600 hover:scale-110 active:scale-95 transition-transform duration-150 ease-out p-1 will-change-transform"
                 aria-label="Close"
               >

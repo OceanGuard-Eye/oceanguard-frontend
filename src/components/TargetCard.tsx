@@ -87,7 +87,7 @@ export default function TargetCard({
   return (
     <button
       onClick={onClick}
-      className="w-full bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:shadow-xl hover:bg-white active:scale-[0.98] transition-all duration-200 ease-out min-h-[70px] sm:min-h-[80px] relative will-change-transform"
+      className="w-full bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:shadow-lg active:scale-[0.98] transition-all duration-150 ease-out min-h-[70px] sm:min-h-[80px] relative will-change-transform"
       style={{ transform: 'translateZ(0)' }}
     >
       {/* Corner Alert Badge */}

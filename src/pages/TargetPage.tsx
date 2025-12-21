@@ -77,11 +77,15 @@ export default function TargetPage() {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleCardClick = (id: number) => {
-    if (expandedId !== null && expandedId !== id) {
+    if (expandedId === id) {
+      // Collapse if clicking the same card
+      setExpandedId(null)
+    } else if (expandedId !== null) {
       // Collapse current, then expand new one
       setExpandedId(null)
-      setTimeout(() => setExpandedId(id), 200)
+      setTimeout(() => setExpandedId(id), 150)
     } else {
+      // Expand new card
       setExpandedId(id)
     }
   }
