@@ -28,9 +28,14 @@ export default function BottomBar({
               type="button"
               onClick={onLeftClick}
               aria-label="Map"
-              className="h-10 w-10 rounded-xl text-gray-400 hover:bg-gray-100 shadow-md"
+              className="h-10 w-10 rounded-xl text-gray-400 hover:bg-gray-100 flex items-center justify-center"
             >
-              <span className="sr-only">Map</span>
+              <img
+                src="/map.png"
+                alt="map"
+                className="h-8 w-8 max-h-full max-w-full object-contain"
+                draggable={false}
+              />
             </button>
 
             <div className="w-10" aria-hidden="true" />
@@ -39,9 +44,14 @@ export default function BottomBar({
               type="button"
               onClick={onRightClick}
               aria-label="Notifications"
-              className="h-10 w-10 rounded-xl text-gray-400 hover:bg-gray-100 shadow-md"
+              className="h-10 w-10 rounded-xl text-gray-400 hover:bg-gray-100 flex items-center justify-center"
             >
-              <span className="sr-only">Notifications</span>
+              <img
+                src="/notification.png"
+                alt="notification"
+                className="h-8 w-8 max-h-full max-w-full object-contain"
+                draggable={false}
+              />
             </button>
 
             <button
@@ -55,9 +65,15 @@ export default function BottomBar({
                 rounded-full
                 bg-small-blue hover:bg-sky-600
                 border border-sky-200
+                flex items-center justify-center
               "
             >
-              <span className="sr-only">Target</span>
+              <img
+                src="/target.png"
+                alt="target"
+                className="h-10 w-10 max-h-full max-w-full object-contain"
+                draggable={false}
+              />
             </button>
           </div>
         </div>
