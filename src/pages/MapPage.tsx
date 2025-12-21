@@ -1,29 +1,50 @@
+import { useState } from "react"
+
 export default function MapPage() {
+  const [isChlorophyllView, setIsChlorophyllView] = useState(false)
+
+  const toggleView = () => {
+    setIsChlorophyllView(!isChlorophyllView)
+  }
+
   return (
     <div 
       className="relative w-full h-[50%] min-h-screen bg-center bg-no-repeat bg-cover"
-      style={{ backgroundImage: 'url(/1766302674426.jpg)' }}
+      style={{ backgroundImage: `url(${isChlorophyllView ? '/1766302674455.jpg' : '/1766302674426.jpg'})` }}
     >
+      {/* View Toggle Button */}
+      <button
+        onClick={toggleView}
+        className="absolute top-20 right-4 z-20 bg-white/90 hover:bg-white px-4 py-2 rounded-lg shadow-lg font-medium text-gray-700 transition-colors"
+      >
+        {isChlorophyllView ? 'Normal View' : 'Chlorophyll View'}
+      </button>
+
+      {/* Chlorophyll Color Bar Legend - Only shows in Chlorophyll View */}
+      {!isChlorophyllView && (
+        <div className="absolute bottom-24 right-4 z-20 bg-white/90 p-4 rounded-lg shadow-lg">
+          <div className="text-xs font-medium text-gray-700 mb-2 text-center">Chlorophyll Level</div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-600 font-medium">0 μg/L</span>
+            <img 
+              src="/colorbar.png" 
+              alt="Chlorophyll scale" 
+              className="h-4 w-48 object-cover"
+            />
+            <span className="text-xs text-gray-600 font-medium">50 μg/L</span>
+          </div>
+        </div>
+      )}
+
       {/* Time Slider */}
       <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-10">
         <div className="bg-white/90 rounded-full px-6 py-3 shadow-lg">
           <div className="flex items-center gap-8">
             <div className="flex flex-col items-center">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <span className="text-xs text-gray-600 mt-1">Now</span>
+              <span className="text-xs text-gray-600 mt-1">27/02/2024</span>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="w-3 h-3 rounded-full bg-red-400"></div>
-              <span className="text-xs text-gray-400 mt-1">+12h</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-              <span className="text-xs text-gray-400 mt-1">+24h</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-              <span className="text-xs text-gray-400 mt-1">+48h</span>
-            </div>
+         
+            
           </div>
         </div>
       </div>
@@ -31,80 +52,62 @@ export default function MapPage() {
       {/* Left Panel - Water Quality Data */}
       <div className="absolute left-4 top-32 w-96 bg-white/95 rounded-2xl shadow-xl p-6 z-10">
         <div className="space-y-4">
-          {/* NH3-N */}
+          {/* Temperature */}
           <div className="flex items-center justify-between border-b pb-3">
-            <span className="font-medium text-gray-700">NH3-N</span>
+            <span className="font-medium text-gray-700">Temperature</span>
             <div className="flex items-center gap-3">
-              <span className="text-gray-500 text-sm">## mg/L</span>
-              <div className="flex gap-1">
-                <span className="text-red-500">▲</span>
-                <span className="text-red-500">▲</span>
-                <span className="text-red-500">▲</span>
-              </div>
+              <span className="text-gray-500 text-sm">28.5 °C</span>
             </div>
           </div>
 
-          {/* NO2-, NO3- */}
+          {/* Chlorophyll */}
           <div className="flex items-center justify-between border-b pb-3">
-            <span className="font-medium text-gray-700">NO2-, NO3-</span>
+            <span className="font-medium text-gray-700">Chlorophyll</span>
             <div className="flex items-center gap-3">
-              <span className="text-gray-500 text-sm">## mg/L</span>
-              <div className="flex gap-1">
-                <span className="text-red-500">▲</span>
-                <span className="text-red-500">▲</span>
-                <span className="text-red-500">▲</span>
-              </div>
+              <span className="text-gray-500 text-sm">3.2 μg/L</span>
             </div>
           </div>
 
-          {/* PO4-P */}
+          {/* E. coli Bacteria */}
           <div className="flex items-center justify-between border-b pb-3">
-            <span className="font-medium text-gray-700">PO4-P</span>
+            <span className="font-medium text-gray-700">E. coli Bacteria</span>
             <div className="flex items-center gap-3">
-              <span className="text-gray-500 text-sm">## mg/L</span>
-              <span className="text-xs text-gray-400">เสี่ยงน้ำเซียว ▲</span>
+              <span className="text-gray-500 text-sm">45 CFU/100mL</span>
             </div>
           </div>
 
-          {/* E. coli */}
+          {/* Total Suspended Solid */}
           <div className="flex items-center justify-between border-b pb-3">
-            <span className="font-medium text-gray-700">E. coli</span>
-            <div className="flex items-center gap-3">
-              <span className="text-gray-500 text-sm">## CFU/100mL</span>
-              <span className="text-green-500 text-xl">✓</span>
-            </div>
+            <span className="font-medium text-gray-700">Total Suspended Solid</span>
+            <span className="text-gray-500 text-sm">18.7 mg/L</span>
           </div>
 
-          {/* Heavy Metals */}
+          {/* CDOM */}
           <div className="flex items-center justify-between border-b pb-3">
-            <span className="font-medium text-gray-700">Heavy Metals</span>
-            <span className="text-gray-500 text-sm">## mg/L</span>
+            <span className="font-medium text-gray-700">CDOM</span>
+            <span className="text-gray-500 text-sm">127 ppb</span>
           </div>
 
-          {/* Flow rate */}
+          {/* Turbidity */}
           <div className="flex items-center justify-between border-b pb-3">
-            <span className="font-medium text-gray-700">Flow rate (Q)</span>
-            <span className="text-gray-500 text-sm">## m³/day</span>
+            <span className="font-medium text-gray-700">Turbidity</span>
+            <span className="text-gray-500 text-sm">12.3 NTU</span>
           </div>
 
           {/* Sensor Info */}
-          <div className="text-xs text-gray-400 pt-2">
-            <p>(แม่ปรางค์)</p>
-            <p>ระบบเซ็นเซอร์เพื่อการตรวจติดตามคุณภาพน้ำ</p>
-            <p>(น้อยขนาน0)</p>
-          </div>
+          
 
           {/* Button */}
           <button className="w-full bg-blue-400 hover:bg-blue-500 text-white py-2.5 rounded-lg font-medium">
-            ปุ่มใดดสสสสสู
+            Summarize
           </button>
 
           {/* Address */}
           <div className="flex items-start gap-2 pt-2 text-sm text-gray-600">
             <span>📍</span>
             <div>
-              <p>123 Anywhere St., Any City, ST 12345</p>
-              <p className="text-xs text-gray-500">(เอื้อนใต้)</p>
+              <p>Chaophraya River</p>
+              <p className="text-xs text-gray-500">(Southern)</p>
             </div>
           </div>
         </div>
