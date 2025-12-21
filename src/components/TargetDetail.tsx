@@ -15,7 +15,12 @@ export default function TargetDetail({
 }: TargetDetailProps) {
   return (
     <div 
-      className="w-full bg-white rounded-xl shadow-xl p-3 sm:p-4 space-y-3 sm:space-y-4 border border-gray-100 animate-[fadeIn_0.2s_ease-out]"
+      className="w-full bg-white rounded-xl shadow-xl p-3 sm:p-4 space-y-3 sm:space-y-4 border border-gray-100 animate-[fadeIn_0.25s_ease-out]"
+      style={{ 
+        transform: 'translate3d(0, 0, 0)',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden'
+      }}
       onClick={onClose}
     >
       {/* Top section with map and location */}

@@ -72,18 +72,26 @@ const getSeverity = (target: TargetLocation): Exclude<SeverityLevel, "all"> => {
 
 export default function TargetPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null)
+  const [collapsingId, setCollapsingId] = useState<number | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [activeSeverity, setActiveSeverity] = useState<SeverityLevel>("all")
   const [isLoading, setIsLoading] = useState(false)
 
   const handleCardClick = (id: number) => {
     if (expandedId === id) {
-      // Collapse if clicking the same card
-      setExpandedId(null)
+      // Start collapse animation
+      setCollapsingId(id)
+      setTimeout(() => {
+        setExpandedId(null)
+        setCollapsingId(null)
+      }, 250)
     } else if (expandedId !== null) {
-      // Collapse current, then expand new one
-      setExpandedId(null)
-      setTimeout(() => setExpandedId(id), 100)
+      // Collapse current
+      setCollapsingId(expandedId)
+      setTimeout(() => {
+        setExpandedId(id)
+        setCollapsingId(null)
+      }, 250)
     } else {
       // Expand new card
       setExpandedId(id)
@@ -196,13 +204,15 @@ export default function TargetPage() {
               }}
             >
               {expandedId === target.id ? (
-                <TargetDetail
-                  location={target.location}
-                  dissolvedOxygen={target.dissolvedOxygen}
-                  temperature={target.temperature}
-                  warnings={target.warnings}
-                  onClose={() => setExpandedId(null)}
-                />
+                <div className={collapsingId === target.id ? 'animate-[fadeOut_0.25s_ease-out]' : ''}>
+                  <TargetDetail
+                    location={target.location}
+                    dissolvedOxygen={target.dissolvedOxygen}
+                    temperature={target.temperature}
+                    warnings={target.warnings}
+                    onClose={() => handleCardClick(target.id)}
+                  />
+                </div>
               ) : (
                 <TargetCard
                   location={target.location}
