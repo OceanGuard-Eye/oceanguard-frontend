@@ -1,7 +1,12 @@
+import { formatTimeAgo } from "../utils/formatters"
+import SeverityBadge from "./SeverityBadge"
+
 type TargetCardProps = {
   location: string
   icon: "temperature" | "fish" | "trash"
   hasAlert?: boolean
+  severity?: "critical" | "warning" | "normal"
+  timestamp?: Date
   onClick?: () => void
 }
 
@@ -9,6 +14,8 @@ export default function TargetCard({
   location,
   icon,
   hasAlert = false,
+  severity = "normal",
+  timestamp,
   onClick,
 }: TargetCardProps) {
   const renderIcon = () => {
@@ -93,7 +100,17 @@ export default function TargetCard({
       </div>
 
       <div className="flex-1 text-left min-w-0">
-        <p className="text-gray-500 text-xs sm:text-sm truncate">{location}</p>
+        <div className="flex items-center gap-2 mb-1">
+          <p className="text-gray-500 text-xs sm:text-sm truncate flex-1">{location}</p>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <SeverityBadge severity={severity} />
+          {timestamp && (
+            <span className="text-xs text-gray-400">
+              {formatTimeAgo(timestamp)}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">

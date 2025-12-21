@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar"
 import FilterChip from "../components/FilterChip"
 import EmptyState from "../components/EmptyState"
 import SkeletonCard from "../components/SkeletonCard"
+import { SeverityLevel } from "../utils/formatters"
 
 type TargetLocation = {
   id: number
@@ -17,8 +18,6 @@ type TargetLocation = {
 }
 
 type SeverityLevel = "critical" | "warning" | "normal" | "all"
-
-// Mock data with more variety
 const mockTargets: TargetLocation[] = [
   {
     id: 1,
@@ -64,7 +63,7 @@ const mockTargets: TargetLocation[] = [
   },
 ]
 
-const getSeverity = (target: TargetLocation): SeverityLevel => {
+const getSeverity = (target: TargetLocation): Exclude<SeverityLevel, "all"> => {
   if (target.dissolvedOxygen < 4) return "critical"
   if (target.dissolvedOxygen < 6 || target.warnings > 0) return "warning"
   return "normal"
@@ -194,6 +193,8 @@ export default function TargetPage() {
                   location={target.location}
                   icon={target.icon}
                   hasAlert={target.warnings > 0}
+                  severity={getSeverity(target)}
+                  timestamp={target.timestamp}
                   onClick={() => setExpandedId(target.id)}
                 />
               )}
