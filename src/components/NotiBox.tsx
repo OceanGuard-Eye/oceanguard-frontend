@@ -5,6 +5,10 @@ type NotiBoxProps = {
   icon: ReactNode
   card: ReactNode
   defaultOpen?: boolean
+
+  // optional warning badge
+  showWarning?: boolean
+  warningSrc?: string
 }
 
 export default function NotiBox({
@@ -12,12 +16,29 @@ export default function NotiBox({
   icon,
   card,
   defaultOpen = false,
+  showWarning = true,
+  warningSrc = "/warning.png",
 }: NotiBoxProps) {
   const [open, setOpen] = useState(defaultOpen)
   const contentId = useId()
 
   return (
-    <div className="w-3/4">
+    <div className="w-3/4 relative">
+      {/* Warning badge (overhang) */}
+      {showWarning && (
+        <img
+          src={warningSrc}
+          alt="warning"
+          draggable={false}
+          className="
+            absolute
+            -top-2 -right-2
+            h-6 w-6
+            z-10
+          "
+        />
+      )}
+
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
