@@ -14,7 +14,10 @@ export default function TargetDetail({
   onClose,
 }: TargetDetailProps) {
   return (
-    <div className="w-full bg-white/95 backdrop-blur-md rounded-xl shadow-2xl p-3 sm:p-4 space-y-3 sm:space-y-4 animate-[scaleIn_0.4s_cubic-bezier(0.34,1.56,0.64,1)] border border-gray-100">
+    <div 
+      className="w-full bg-white/95 backdrop-blur-md rounded-xl shadow-2xl p-3 sm:p-4 space-y-3 sm:space-y-4 border border-gray-100 animate-[fadeIn_0.3s_ease-out] will-change-transform"
+      style={{ transform: 'translateZ(0)' }}
+    >
       {/* Top section with map and location */}
       <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
         {/* Map thumbnail */}
@@ -79,7 +82,7 @@ export default function TargetDetail({
               
               <button
                 onClick={onClose}
-                className="text-red-500 hover:text-red-600 hover:scale-110 hover:rotate-90 active:scale-95 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] p-1"
+                className="text-red-500 hover:text-red-600 hover:scale-110 active:scale-95 transition-transform duration-150 ease-out p-1 will-change-transform"
                 aria-label="Close"
               >
                 <svg

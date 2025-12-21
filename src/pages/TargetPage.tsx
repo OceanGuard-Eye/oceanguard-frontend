@@ -80,7 +80,7 @@ export default function TargetPage() {
     if (expandedId !== null && expandedId !== id) {
       // Collapse current, then expand new one
       setExpandedId(null)
-      setTimeout(() => setExpandedId(id), 300)
+      setTimeout(() => setExpandedId(id), 200)
     } else {
       setExpandedId(id)
     }
@@ -187,7 +187,7 @@ export default function TargetPage() {
               key={target.id}
               className="animate-[slideUp_0.5s_ease-out]"
               style={{
-                animationDelay: `${0.2 + index * 0.1}s`,
+                animationDelay: `${0.1 + index * 0.05}s`,
                 animationFillMode: "both",
               }}
             >
