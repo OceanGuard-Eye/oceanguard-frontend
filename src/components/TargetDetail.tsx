@@ -43,13 +43,15 @@ export default function TargetDetail({
           {/* Alert and DO level */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-5 h-5 sm:w-6 sm:h-6 text-red-500"
-              >
-                <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
-              </svg>
+              {warnings > 0 && (
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-red-500"
+                >
+                  <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
+                </svg>
+              )}
               <span className="text-gray-600 text-base sm:text-lg font-medium">
                 DO <span className="text-gray-400">{dissolvedOxygen.toFixed(1)}</span> mg/L
               </span>
