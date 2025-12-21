@@ -17,11 +17,13 @@ export default function RootLayout() {
         </div>
       </main>
 
-      <BottomBar
-        onLeftClick={() => navigate("/map")}
-        onCenterClick={() => navigate("/target")}
-        onRightClick={() => navigate("/notifications")}
-      />
+      <div className="fixed bottom-0 left-0 right-0 z-50">
+        <BottomBar
+          onLeftClick={() => navigate("/map")}
+          onCenterClick={() => navigate("/target")}
+          onRightClick={() => navigate("/notifications")}
+        />
+      </div>
     </div>
   )
 }
