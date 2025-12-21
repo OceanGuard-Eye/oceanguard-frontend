@@ -80,7 +80,7 @@ export default function TargetCard({
   return (
     <button
       onClick={onClick}
-      className="w-full bg-white rounded-xl shadow-sm p-4 flex items-center gap-4 hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 ease-out"
+      className="w-full bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-4 flex items-center gap-4 hover:shadow-xl hover:bg-white hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] active:translate-y-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
     >
       <div className="flex items-center text-gray-400">
         <svg

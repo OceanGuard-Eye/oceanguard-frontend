@@ -42,8 +42,12 @@ export default function TargetPage() {
 
   return (
     <div className="space-y-4 max-w-4xl mx-auto">
-      {mockTargets.map((target) => (
-        <div key={target.id}>
+      {mockTargets.map((target, index) => (
+        <div 
+          key={target.id}
+          className="animate-[slideUp_0.5s_ease-out]"
+          style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'both' }}
+        >
           {expandedId === target.id ? (
             <TargetDetail
               location={target.location}

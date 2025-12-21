@@ -27,7 +27,7 @@ export default function TargetDetail({
   }
 
   return (
-    <div className="w-full bg-white rounded-xl shadow-lg p-4 space-y-4 animate-[fadeIn_0.3s_ease-out]">
+    <div className="w-full bg-white/95 backdrop-blur-md rounded-xl shadow-2xl p-4 space-y-4 animate-[scaleIn_0.4s_cubic-bezier(0.34,1.56,0.64,1)] border border-gray-100">
       {/* Top section with map and location */}
       <div className="flex items-start gap-4">
         {/* Map thumbnail */}
@@ -128,7 +128,7 @@ export default function TargetDetail({
           
           <button
             onClick={onClose}
-            className="text-red-500 hover:text-red-600 hover:scale-110 active:scale-95 transition-transform duration-150"
+            className="text-red-500 hover:text-red-600 hover:scale-110 hover:rotate-90 active:scale-95 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
             aria-label="Close"
           >
             <svg
