@@ -5,7 +5,6 @@ import SearchBar from "../components/SearchBar"
 import FilterChip from "../components/FilterChip"
 import EmptyState from "../components/EmptyState"
 import SkeletonCard from "../components/SkeletonCard"
-import { SeverityLevel } from "../utils/formatters"
 
 type TargetLocation = {
   id: number
@@ -18,6 +17,8 @@ type TargetLocation = {
 }
 
 type SeverityLevel = "critical" | "warning" | "normal" | "all"
+
+// Mock data with more variety
 const mockTargets: TargetLocation[] = [
   {
     id: 1,
