@@ -1,4 +1,4 @@
-import { getSeverityColor, SeverityLevel } from "../utils/formatters"
+import { getSeverityColor, type SeverityLevel } from "../utils/formatters"
 
 type SeverityBadgeProps = {
   severity: SeverityLevel
