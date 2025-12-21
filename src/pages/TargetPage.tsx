@@ -83,7 +83,7 @@ export default function TargetPage() {
     } else if (expandedId !== null) {
       // Collapse current, then expand new one
       setExpandedId(null)
-      setTimeout(() => setExpandedId(id), 150)
+      setTimeout(() => setExpandedId(id), 100)
     } else {
       // Expand new card
       setExpandedId(id)
