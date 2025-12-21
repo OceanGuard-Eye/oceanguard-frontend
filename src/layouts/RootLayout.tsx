@@ -11,7 +11,7 @@ export default function RootLayout() {
     <div className="min-h-screen w-full bg-gray-200 flex flex-col">
       <TopBar title="OceanGuard Eye"  logoSrc="/logo_white.png" />
 
-      <main className={isTargetPage ? "flex-1 w-full" : "flex-1 w-full"}>
+      <main className={isTargetPage ? "flex-1 w-full" : "flex-1 w-full overflow-auto pb-20"}>
         <div className={isTargetPage ? "w-full h-full" : "w-full px-[4vw] sm:px-6 lg:px-8 py-4"}>
           <Outlet />
         </div>
