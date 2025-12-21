@@ -75,6 +75,16 @@ export default function TargetPage() {
   const [activeSeverity, setActiveSeverity] = useState<SeverityLevel>("all")
   const [isLoading, setIsLoading] = useState(false)
 
+  const handleCardClick = (id: number) => {
+    if (expandedId !== null && expandedId !== id) {
+      // Collapse current, then expand new one
+      setExpandedId(null)
+      setTimeout(() => setExpandedId(id), 300)
+    } else {
+      setExpandedId(id)
+    }
+  }
+
   // Filter and search logic
   const filteredTargets = useMemo(() => {
     return mockTargets.filter((target) => {
@@ -195,7 +205,7 @@ export default function TargetPage() {
                   hasAlert={target.warnings > 0}
                   severity={getSeverity(target)}
                   timestamp={target.timestamp}
-                  onClick={() => setExpandedId(target.id)}
+                  onClick={() => handleCardClick(target.id)}
                 />
               )}
             </div>

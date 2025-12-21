@@ -13,19 +13,6 @@ export default function TargetDetail({
   warnings,
   onClose,
 }: TargetDetailProps) {
-  // Calculate the position on the progress bar (0-100%)
-  // Assuming DO range: 0-15 mg/L, optimal is 6-8, critical below 4
-  const getBarPosition = (value: number) => {
-    return Math.min(100, Math.max(0, (value / 15) * 100))
-  }
-
-  const getBarColor = (value: number) => {
-    if (value < 4) return "bg-red-500"
-    if (value < 6) return "bg-orange-500"
-    if (value <= 8) return "bg-green-500"
-    return "bg-orange-500"
-  }
-
   return (
     <div className="w-full bg-white/95 backdrop-blur-md rounded-xl shadow-2xl p-3 sm:p-4 space-y-3 sm:space-y-4 animate-[scaleIn_0.4s_cubic-bezier(0.34,1.56,0.64,1)] border border-gray-100">
       {/* Top section with map and location */}

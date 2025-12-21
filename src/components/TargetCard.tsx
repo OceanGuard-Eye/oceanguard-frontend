@@ -87,8 +87,20 @@ export default function TargetCard({
   return (
     <button
       onClick={onClick}
-      className="w-full bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:shadow-xl hover:bg-white hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] active:translate-y-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] min-h-[70px] sm:min-h-[80px]"
+      className="w-full bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:shadow-xl hover:bg-white hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] active:translate-y-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] min-h-[70px] sm:min-h-[80px] relative"
     >
+      {/* Corner Alert Badge */}
+      {hasAlert && (
+        <div className="absolute -top-2 -right-2 z-10">
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-7 h-7 sm:w-8 sm:h-8 text-red-500 animate-pulse drop-shadow-lg"
+          >
+            <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
+          </svg>
+        </div>
+      )}
       <div className="flex items-center text-gray-400">
         <svg
           viewBox="0 0 24 24"
@@ -115,18 +127,6 @@ export default function TargetCard({
 
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {renderIcon()}
-        
-        {hasAlert && (
-          <div className="flex items-center justify-center">
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-6 h-6 sm:w-8 sm:h-8 text-red-500"
-            >
-              <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
-            </svg>
-          </div>
-        )}
       </div>
     </button>
   )
