@@ -1,75 +1,136 @@
 import { useState, useMemo } from "react"
 import { formatTimeAgo, getSeverityColor, type SeverityLevel } from "../utils/formatters"
 
+// Aligned with PTTEP Ocean for Life strategy - 3 Pillars
+type OceanPillar = "protect" | "preserve" | "provide"
+
 type ZoneOverview = {
   id: number
   name: string
+  province: string
   status: SeverityLevel
+  // Water Quality (Protect)
   dissolvedOxygen: number
   temperature: number
   phLevel: number
   chlorophyll: number
+  microplastics: number // particles per liter
+  // Marine Health (Preserve)
+  biodiversityIndex: number // 0-100
+  coralHealth: number // 0-100%
+  seagrassHealth: number // 0-100%
+  // Community Impact (Provide)
+  fishStock: number // relative abundance
+  blueCarbon: number // tons CO2/hectare
   lastUpdated: Date
   activeAlerts: number
+  pillarFocus: OceanPillar
 }
 
 const mockZones: ZoneOverview[] = [
   {
     id: 1,
     name: "Zone A",
+    province: "Rayong",
     status: "warning",
     dissolvedOxygen: 5.2,
     temperature: 29,
     phLevel: 7.8,
     chlorophyll: 4.2,
+    microplastics: 45,
+    biodiversityIndex: 72,
+    coralHealth: 68,
+    seagrassHealth: 75,
+    fishStock: 82,
+    blueCarbon: 12.5,
     lastUpdated: new Date(Date.now() - 5 * 60 * 1000),
     activeAlerts: 2,
+    pillarFocus: "protect",
   },
   {
     id: 2,
     name: "Zone B",
+    province: "Chonburi",
     status: "normal",
     dissolvedOxygen: 6.5,
     temperature: 28,
     phLevel: 8.1,
     chlorophyll: 2.8,
+    microplastics: 22,
+    biodiversityIndex: 85,
+    coralHealth: 82,
+    seagrassHealth: 88,
+    fishStock: 91,
+    blueCarbon: 18.2,
     lastUpdated: new Date(Date.now() - 10 * 60 * 1000),
     activeAlerts: 0,
+    pillarFocus: "preserve",
   },
   {
     id: 3,
     name: "Zone C",
+    province: "Chanthaburi",
     status: "critical",
     dissolvedOxygen: 3.8,
     temperature: 30,
     phLevel: 7.9,
     chlorophyll: 8.5,
+    microplastics: 120,
+    biodiversityIndex: 45,
+    coralHealth: 35,
+    seagrassHealth: 42,
+    fishStock: 55,
+    blueCarbon: 6.8,
     lastUpdated: new Date(Date.now() - 2 * 60 * 1000),
     activeAlerts: 4,
+    pillarFocus: "protect",
   },
   {
     id: 4,
     name: "Zone D",
+    province: "Trat",
     status: "normal",
     dissolvedOxygen: 5.8,
     temperature: 29,
     phLevel: 8.0,
     chlorophyll: 3.2,
+    microplastics: 35,
+    biodiversityIndex: 78,
+    coralHealth: 75,
+    seagrassHealth: 80,
+    fishStock: 88,
+    blueCarbon: 15.3,
     lastUpdated: new Date(Date.now() - 15 * 60 * 1000),
     activeAlerts: 0,
+    pillarFocus: "provide",
   },
   {
     id: 5,
     name: "Zone E",
+    province: "Samut Prakan",
     status: "normal",
     dissolvedOxygen: 6.2,
     temperature: 28,
     phLevel: 8.2,
     chlorophyll: 2.5,
+    microplastics: 28,
+    biodiversityIndex: 80,
+    coralHealth: 78,
+    seagrassHealth: 85,
+    fishStock: 86,
+    blueCarbon: 14.7,
     lastUpdated: new Date(Date.now() - 8 * 60 * 1000),
     activeAlerts: 0,
+    pillarFocus: "preserve",
   },
 ]
+
+// Pillar colors and labels aligned with Ocean for Life
+const pillarConfig = {
+  protect: { color: "bg-red-500", label: "Protect", icon: "🛡️" },
+  preserve: { color: "bg-green-500", label: "Preserve", icon: "🌿" },
+  provide: { color: "bg-blue-500", label: "Provide", icon: "🤝" },
+}
 
 type StatCardProps = {
   title: string
@@ -121,6 +182,7 @@ type ZoneRowProps = {
 }
 
 function ZoneRow({ zone, isSelected, onClick }: ZoneRowProps) {
+  const pillar = pillarConfig[zone.pillarFocus]
   return (
     <button
       onClick={onClick}
@@ -132,8 +194,13 @@ function ZoneRow({ zone, isSelected, onClick }: ZoneRowProps) {
     >
       <div className={`w-3 h-3 rounded-full ${getSeverityColor(zone.status)}`} />
       <div className="flex-1 text-left">
-        <p className="font-medium text-gray-900">{zone.name}</p>
-        <p className="text-xs text-gray-500">{formatTimeAgo(zone.lastUpdated)}</p>
+        <div className="flex items-center gap-2">
+          <p className="font-medium text-gray-900">{zone.name}</p>
+          <span className={`text-xs px-1.5 py-0.5 rounded ${pillar.color} text-white`}>
+            {pillar.icon}
+          </span>
+        </div>
+        <p className="text-xs text-gray-500">{zone.province} • {formatTimeAgo(zone.lastUpdated)}</p>
       </div>
       {zone.activeAlerts > 0 && (
         <span className="bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded-full">
@@ -158,6 +225,9 @@ export default function MapPage() {
     const totalAlerts = mockZones.reduce((sum, z) => sum + z.activeAlerts, 0)
     const avgDO = mockZones.reduce((sum, z) => sum + z.dissolvedOxygen, 0) / totalZones
     const avgTemp = mockZones.reduce((sum, z) => sum + z.temperature, 0) / totalZones
+    const avgBiodiversity = mockZones.reduce((sum, z) => sum + z.biodiversityIndex, 0) / totalZones
+    const totalBlueCarbon = mockZones.reduce((sum, z) => sum + z.blueCarbon, 0)
+    const avgMicroplastics = mockZones.reduce((sum, z) => sum + z.microplastics, 0) / totalZones
 
     return {
       totalZones,
@@ -167,6 +237,9 @@ export default function MapPage() {
       totalAlerts,
       avgDO: avgDO.toFixed(1),
       avgTemp: avgTemp.toFixed(1),
+      avgBiodiversity: Math.round(avgBiodiversity),
+      totalBlueCarbon: totalBlueCarbon.toFixed(1),
+      avgMicroplastics: Math.round(avgMicroplastics),
     }
   }, [])
 
@@ -174,8 +247,33 @@ export default function MapPage() {
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header Section */}
       <div className="animate-[slideUp_0.5s_ease-out]">
-        <h1 className="text-xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p className="text-sm text-gray-600">Gulf of Thailand Monitoring Network</p>
+        <div className="flex items-center gap-2 mb-1">
+          <h1 className="text-xl font-bold text-gray-900">Ocean for Life</h1>
+          <span className="text-xs bg-mid-blue text-white px-2 py-0.5 rounded-full">SDG 14</span>
+        </div>
+        <p className="text-sm text-gray-600">Gulf of Thailand Monitoring Network • 17 Provinces</p>
+      </div>
+
+      {/* Ocean for Life Pillars */}
+      <div
+        className="grid grid-cols-3 gap-2 animate-[slideUp_0.5s_ease-out]"
+        style={{ animationDelay: "0.05s", animationFillMode: "both" }}
+      >
+        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+          <span className="text-2xl">🛡️</span>
+          <p className="text-xs font-semibold text-red-700 mt-1">Protect</p>
+          <p className="text-xs text-red-600">Pollution Control</p>
+        </div>
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+          <span className="text-2xl">🌿</span>
+          <p className="text-xs font-semibold text-green-700 mt-1">Preserve</p>
+          <p className="text-xs text-green-600">Biodiversity</p>
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+          <span className="text-2xl">🤝</span>
+          <p className="text-xs font-semibold text-blue-700 mt-1">Provide</p>
+          <p className="text-xs text-blue-600">Community</p>
+        </div>
       </div>
 
       {/* Stats Grid */}
@@ -184,16 +282,40 @@ export default function MapPage() {
         style={{ animationDelay: "0.1s", animationFillMode: "both" }}
       >
         <StatCard
-          title="Total Zones"
-          value={stats.totalZones}
-          subtitle="Active monitoring"
+          title="Biodiversity"
+          value={`${stats.avgBiodiversity}%`}
+          subtitle="Health Index"
           icon={
             <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              <path d="M12,20L12.76,17C9.5,16.79 6.59,15.4 5.75,13.58C5.66,14.06 5.53,14.5 5.33,14.83C4.67,16 3.33,16 2,16C3.1,16 3.5,14.43 3.5,12.5C3.5,10.57 3.1,9 2,9C3.33,9 4.67,9 5.33,10.17C5.53,10.5 5.66,10.94 5.75,11.42C6.4,10 8.32,8.85 10.66,8.32L9,5C11,5 13,5 15,5L13.34,8.32C15.68,8.85 17.6,10 18.25,11.42C18.34,10.94 18.47,10.5 18.67,10.17C19.33,9 20.67,9 22,9C20.9,9 20.5,10.57 20.5,12.5C20.5,14.43 20.9,16 22,16C20.67,16 19.33,16 18.67,14.83C18.47,14.5 18.34,14.06 18.25,13.58C17.41,15.4 14.5,16.79 11.24,17L12,20Z" />
             </svg>
           }
-          color="bg-mid-blue"
-          trend="stable"
+          color="bg-green-500"
+          trend="up"
+        />
+        <StatCard
+          title="Blue Carbon"
+          value={`${stats.totalBlueCarbon}t`}
+          subtitle="CO₂ Captured"
+          icon={
+            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+            </svg>
+          }
+          color="bg-teal-500"
+          trend="up"
+        />
+        <StatCard
+          title="Microplastics"
+          value={`${stats.avgMicroplastics}`}
+          subtitle="particles/L avg"
+          icon={
+            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+            </svg>
+          }
+          color={stats.avgMicroplastics > 50 ? "bg-red-500" : "bg-orange-500"}
+          trend={stats.avgMicroplastics > 50 ? "up" : "down"}
         />
         <StatCard
           title="Active Alerts"
@@ -206,30 +328,6 @@ export default function MapPage() {
           }
           color={stats.totalAlerts > 0 ? "bg-red-500" : "bg-green-500"}
           trend={stats.totalAlerts > 0 ? "up" : "stable"}
-        />
-        <StatCard
-          title="Avg. DO"
-          value={`${stats.avgDO} mg/L`}
-          subtitle="Dissolved Oxygen"
-          icon={
-            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8zm0 18c-3.35 0-6-2.57-6-6.2 0-2.34 1.95-5.44 6-9.14 4.05 3.7 6 6.79 6 9.14 0 3.63-2.65 6.2-6 6.2z" />
-            </svg>
-          }
-          color="bg-cyan-500"
-          trend="stable"
-        />
-        <StatCard
-          title="Avg. Temp"
-          value={`${stats.avgTemp}°C`}
-          subtitle="Water temperature"
-          icon={
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          }
-          color="bg-orange-500"
-          trend="up"
         />
       </div>
 
@@ -305,36 +403,88 @@ export default function MapPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className={`w-4 h-4 rounded-full ${getSeverityColor(selectedZone.status)}`} />
-                <div>
+                <div className="flex-1">
                   <p className="font-medium text-gray-900">Gulf of Thailand - {selectedZone.name}</p>
                   <p className="text-xs text-gray-500">
-                    Last updated: {formatTimeAgo(selectedZone.lastUpdated)}
+                    {selectedZone.province} • {formatTimeAgo(selectedZone.lastUpdated)}
                   </p>
+                </div>
+                <span className={`text-sm px-2 py-1 rounded-full ${pillarConfig[selectedZone.pillarFocus].color} text-white`}>
+                  {pillarConfig[selectedZone.pillarFocus].icon} {pillarConfig[selectedZone.pillarFocus].label}
+                </span>
+              </div>
+
+              {/* Water Quality - Protect */}
+              <div>
+                <p className="text-xs font-medium text-red-600 mb-2 flex items-center gap-1">
+                  🛡️ Water Quality (Protect)
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-gray-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">DO</p>
+                    <p className="text-sm font-semibold text-gray-900">{selectedZone.dissolvedOxygen} mg/L</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">pH</p>
+                    <p className="text-sm font-semibold text-gray-900">{selectedZone.phLevel}</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">Temperature</p>
+                    <p className="text-sm font-semibold text-gray-900">{selectedZone.temperature}°C</p>
+                  </div>
+                  <div className={`rounded-lg p-2 ${selectedZone.microplastics > 50 ? 'bg-red-50' : 'bg-gray-50'}`}>
+                    <p className="text-xs text-gray-500">Microplastics</p>
+                    <p className={`text-sm font-semibold ${selectedZone.microplastics > 50 ? 'text-red-600' : 'text-gray-900'}`}>
+                      {selectedZone.microplastics} /L
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs text-gray-500">Dissolved Oxygen</p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedZone.dissolvedOxygen} <span className="text-sm font-normal">mg/L</span>
-                  </p>
+              {/* Marine Health - Preserve */}
+              <div>
+                <p className="text-xs font-medium text-green-600 mb-2 flex items-center gap-1">
+                  🌿 Marine Health (Preserve)
+                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500 w-20">Biodiversity</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500" style={{ width: `${selectedZone.biodiversityIndex}%` }} />
+                    </div>
+                    <span className="text-xs font-medium w-10">{selectedZone.biodiversityIndex}%</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500 w-20">Coral</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-pink-500" style={{ width: `${selectedZone.coralHealth}%` }} />
+                    </div>
+                    <span className="text-xs font-medium w-10">{selectedZone.coralHealth}%</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500 w-20">Seagrass</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-teal-500" style={{ width: `${selectedZone.seagrassHealth}%` }} />
+                    </div>
+                    <span className="text-xs font-medium w-10">{selectedZone.seagrassHealth}%</span>
+                  </div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs text-gray-500">Temperature</p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedZone.temperature} <span className="text-sm font-normal">°C</span>
-                  </p>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs text-gray-500">pH Level</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedZone.phLevel}</p>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs text-gray-500">Chlorophyll</p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {selectedZone.chlorophyll} <span className="text-sm font-normal">µg/L</span>
-                  </p>
+              </div>
+
+              {/* Community Impact - Provide */}
+              <div>
+                <p className="text-xs font-medium text-blue-600 mb-2 flex items-center gap-1">
+                  🤝 Community Impact (Provide)
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-blue-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">Fish Stock</p>
+                    <p className="text-sm font-semibold text-blue-700">{selectedZone.fishStock}%</p>
+                  </div>
+                  <div className="bg-teal-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">Blue Carbon</p>
+                    <p className="text-sm font-semibold text-teal-700">{selectedZone.blueCarbon} t/ha</p>
+                  </div>
                 </div>
               </div>
 
