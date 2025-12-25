@@ -31,19 +31,11 @@ const mockLocations: LocationData[] = [
     dissolvedOxygen: 5.2,
     phLevel: 7.8,
     metrics: [
-      { label: "TSS", value: 45, unit: "mg/L", status: "warning", range: { min: 0, max: 100, current: 45 } },
-      { label: "EC", value: 48500, unit: "µS/cm", status: "good", range: { min: 45000, max: 56000, current: 48500 } },
-      { label: "TDS", value: 33200, unit: "mg/L", status: "good", range: { min: 30000, max: 40000, current: 33200 } },
-      { label: "Salinity", value: 32.8, unit: "ppt", status: "good" },
-      { label: "ORP", value: 250, unit: "mV", status: "good" },
-      { label: "BOD", value: 3.8, unit: "mg/L", status: "good" },
-      { label: "COD", value: 28, unit: "mg/L", status: "warning", range: { min: 0, max: 50, current: 28 } },
-      { label: "NH3-N", value: 1.2, unit: "mg/L", status: "critical" },
-      { label: "NO2-, NO3-", value: 2.5, unit: "mg/L", status: "critical" },
-      { label: "PO4-P", value: 0.8, unit: "mg/L", status: "warning" },
-      { label: "E. coli", value: 180, unit: "CFU/100mL", status: "good" },
-      { label: "Heavy Metals", value: 0.02, unit: "mg/L", status: "good" },
-      { label: "Chlorophyll-a", value: 4.2, unit: "µg/L", status: "warning" },
+      { label: "Chlorophyll", value: 4.2, unit: "µg/L", status: "warning" },
+      { label: "E. coli Bacteria", value: 45, unit: "CFU", status: "warning" },
+      { label: "Total Suspended Solid", value: 12, unit: "mg/L", status: "good" },
+      { label: "CDOM", value: 0.8, unit: "m⁻¹", status: "good" },
+      { label: "Turbidity", value: 3.5, unit: "NTU", status: "good" },
     ],
   },
   {
@@ -55,19 +47,11 @@ const mockLocations: LocationData[] = [
     dissolvedOxygen: 6.5,
     phLevel: 8.1,
     metrics: [
-      { label: "TSS", value: 18, unit: "mg/L", status: "good", range: { min: 0, max: 100, current: 18 } },
-      { label: "EC", value: 52000, unit: "µS/cm", status: "good", range: { min: 45000, max: 56000, current: 52000 } },
-      { label: "TDS", value: 35000, unit: "mg/L", status: "good", range: { min: 30000, max: 40000, current: 35000 } },
-      { label: "Salinity", value: 33.2, unit: "ppt", status: "good" },
-      { label: "ORP", value: 380, unit: "mV", status: "good" },
-      { label: "BOD", value: 1.2, unit: "mg/L", status: "good" },
-      { label: "COD", value: 8, unit: "mg/L", status: "good", range: { min: 0, max: 50, current: 8 } },
-      { label: "NH3-N", value: 0.05, unit: "mg/L", status: "good" },
-      { label: "NO2-, NO3-", value: 0.2, unit: "mg/L", status: "good" },
-      { label: "PO4-P", value: 0.03, unit: "mg/L", status: "good" },
-      { label: "E. coli", value: 35, unit: "CFU/100mL", status: "good" },
-      { label: "Heavy Metals", value: 0.005, unit: "mg/L", status: "good" },
-      { label: "Chlorophyll-a", value: 2.8, unit: "µg/L", status: "good" },
+      { label: "Chlorophyll", value: 2.8, unit: "µg/L", status: "good" },
+      { label: "E. coli Bacteria", value: 35, unit: "CFU", status: "good" },
+      { label: "Total Suspended Solid", value: 8, unit: "mg/L", status: "good" },
+      { label: "CDOM", value: 0.5, unit: "m⁻¹", status: "good" },
+      { label: "Turbidity", value: 2.1, unit: "NTU", status: "good" },
     ],
   },
   {
@@ -79,19 +63,11 @@ const mockLocations: LocationData[] = [
     dissolvedOxygen: 4.8,
     phLevel: 7.9,
     metrics: [
-      { label: "TSS", value: 75, unit: "mg/L", status: "critical", range: { min: 0, max: 100, current: 75 } },
-      { label: "EC", value: 48000, unit: "µS/cm", status: "warning", range: { min: 45000, max: 56000, current: 48000 } },
-      { label: "TDS", value: 32000, unit: "mg/L", status: "good", range: { min: 30000, max: 40000, current: 32000 } },
-      { label: "Salinity", value: 31.8, unit: "ppt", status: "good" },
-      { label: "ORP", value: 320, unit: "mV", status: "good" },
-      { label: "BOD", value: 4.5, unit: "mg/L", status: "warning" },
-      { label: "COD", value: 42, unit: "mg/L", status: "warning", range: { min: 0, max: 50, current: 42 } },
-      { label: "NH3-N", value: 0.8, unit: "mg/L", status: "warning" },
-      { label: "NO2-, NO3-", value: 1.8, unit: "mg/L", status: "warning" },
-      { label: "PO4-P", value: 0.15, unit: "mg/L", status: "warning" },
-      { label: "E. coli", value: 320, unit: "CFU/100mL", status: "critical" },
-      { label: "Heavy Metals", value: 0.08, unit: "mg/L", status: "critical" },
-      { label: "Chlorophyll-a", value: 8.5, unit: "µg/L", status: "warning" },
+      { label: "Chlorophyll", value: 8.5, unit: "µg/L", status: "warning" },
+      { label: "E. coli Bacteria", value: 320, unit: "CFU", status: "critical" },
+      { label: "Total Suspended Solid", value: 75, unit: "mg/L", status: "critical" },
+      { label: "CDOM", value: 1.8, unit: "m⁻¹", status: "warning" },
+      { label: "Turbidity", value: 8.2, unit: "NTU", status: "warning" },
     ],
   },
   {
@@ -103,19 +79,11 @@ const mockLocations: LocationData[] = [
     dissolvedOxygen: 5.8,
     phLevel: 8.0,
     metrics: [
-      { label: "TSS", value: 32, unit: "mg/L", status: "good", range: { min: 0, max: 100, current: 32 } },
-      { label: "EC", value: 50200, unit: "µS/cm", status: "good", range: { min: 45000, max: 56000, current: 50200 } },
-      { label: "TDS", value: 34100, unit: "mg/L", status: "good", range: { min: 30000, max: 40000, current: 34100 } },
-      { label: "Salinity", value: 32.9, unit: "ppt", status: "good" },
-      { label: "ORP", value: 365, unit: "mV", status: "good" },
-      { label: "BOD", value: 2.1, unit: "mg/L", status: "good" },
-      { label: "COD", value: 15, unit: "mg/L", status: "good", range: { min: 0, max: 50, current: 15 } },
-      { label: "NH3-N", value: 0.3, unit: "mg/L", status: "good" },
-      { label: "NO2-, NO3-", value: 0.8, unit: "mg/L", status: "good" },
-      { label: "PO4-P", value: 0.05, unit: "mg/L", status: "good" },
-      { label: "E. coli", value: 65, unit: "CFU/100mL", status: "good" },
-      { label: "Heavy Metals", value: 0.01, unit: "mg/L", status: "good" },
-      { label: "Chlorophyll-a", value: 3.2, unit: "µg/L", status: "good" },
+      { label: "Chlorophyll", value: 3.2, unit: "µg/L", status: "good" },
+      { label: "E. coli Bacteria", value: 65, unit: "CFU", status: "good" },
+      { label: "Total Suspended Solid", value: 32, unit: "mg/L", status: "good" },
+      { label: "CDOM", value: 0.6, unit: "m⁻¹", status: "good" },
+      { label: "Turbidity", value: 2.8, unit: "NTU", status: "good" },
     ],
   },
   {
@@ -127,19 +95,11 @@ const mockLocations: LocationData[] = [
     dissolvedOxygen: 6.2,
     phLevel: 8.2,
     metrics: [
-      { label: "TSS", value: 22, unit: "mg/L", status: "good", range: { min: 0, max: 100, current: 22 } },
-      { label: "EC", value: 51800, unit: "µS/cm", status: "good", range: { min: 45000, max: 56000, current: 51800 } },
-      { label: "TDS", value: 34800, unit: "mg/L", status: "good", range: { min: 30000, max: 40000, current: 34800 } },
-      { label: "Salinity", value: 33.5, unit: "ppt", status: "good" },
-      { label: "ORP", value: 395, unit: "mV", status: "good" },
-      { label: "BOD", value: 1.5, unit: "mg/L", status: "good" },
-      { label: "COD", value: 12, unit: "mg/L", status: "good", range: { min: 0, max: 50, current: 12 } },
-      { label: "NH3-N", value: 0.08, unit: "mg/L", status: "good" },
-      { label: "NO2-, NO3-", value: 0.3, unit: "mg/L", status: "good" },
-      { label: "PO4-P", value: 0.04, unit: "mg/L", status: "good" },
-      { label: "E. coli", value: 42, unit: "CFU/100mL", status: "good" },
-      { label: "Heavy Metals", value: 0.006, unit: "mg/L", status: "good" },
-      { label: "Chlorophyll-a", value: 2.5, unit: "µg/L", status: "good" },
+      { label: "Chlorophyll", value: 2.5, unit: "µg/L", status: "good" },
+      { label: "E. coli Bacteria", value: 42, unit: "CFU", status: "good" },
+      { label: "Total Suspended Solid", value: 22, unit: "mg/L", status: "good" },
+      { label: "CDOM", value: 0.4, unit: "m⁻¹", status: "good" },
+      { label: "Turbidity", value: 1.9, unit: "NTU", status: "good" },
     ],
   },
 ]
@@ -273,30 +233,6 @@ export default function TargetPage() {
     newTileLayer.addTo(mapRef.current)
   }, [viewMode])
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "critical": return "text-red-500"
-      case "warning": return "text-orange-500"
-      case "good": return "text-green-500"
-      default: return "text-gray-500"
-    }
-  }
-
-  const getStatusIcon = (status: string) => {
-    if (status === "critical" || status === "warning") {
-      return (
-        <svg viewBox="0 0 24 24" fill="currentColor" className={`w-5 h-5 ${getStatusColor(status)}`}>
-          <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
-        </svg>
-      )
-    }
-    return (
-      <svg viewBox="0 0 24 24" fill="currentColor" className={`w-5 h-5 ${getStatusColor(status)}`}>
-        <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
-      </svg>
-    )
-  }
-
   return (
     <div className="relative w-full h-[calc(100vh-112px)] overflow-hidden">
       {/* Map Container */}
@@ -359,43 +295,36 @@ export default function TargetPage() {
             </div>
 
             {/* Metrics List */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-2">
+              {/* Temperature */}
+              <div className="bg-[#E8D4C0] rounded-xl p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-gray-800">Temperature</span>
+                  <span className="font-semibold text-gray-900">{selectedLocation.temperature}°C</span>
+                </div>
+              </div>
+
+              {/* Other Metrics */}
               {selectedLocation.metrics.map((metric, index) => (
                 <div
                   key={index}
-                  className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors"
+                  className="bg-[#E8D4C0] rounded-xl p-4"
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-gray-700">{metric.label}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-gray-900">
-                        {metric.value} <span className="text-sm text-gray-500">{metric.unit}</span>
-                      </span>
-                      {getStatusIcon(metric.status)}
-                    </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-gray-800">{metric.label}</span>
+                    <span className="font-semibold text-gray-900">
+                      {metric.value} <span className="text-sm text-gray-600">{metric.unit}</span>
+                    </span>
                   </div>
-                  {metric.range && (
-                    <div className="relative">
-                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full transition-all ${
-                            metric.status === "critical"
-                              ? "bg-gradient-to-r from-red-400 to-red-600"
-                              : metric.status === "warning"
-                              ? "bg-gradient-to-r from-yellow-400 to-orange-500"
-                              : "bg-gradient-to-r from-green-400 to-green-600"
-                          }`}
-                          style={{ width: `${(metric.range.current / metric.range.max) * 100}%` }}
-                        />
-                      </div>
-                      <div className="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>{metric.range.min}</span>
-                        <span>{metric.range.max}</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               ))}
+            </div>
+
+            {/* Summarize Button */}
+            <div className="px-6 pb-6">
+              <button className="w-full bg-[#4B9ED6] hover:bg-[#3d8ac4] text-white font-semibold py-3 rounded-xl transition-colors">
+                Summarize
+              </button>
             </div>
           </div>
         </div>
