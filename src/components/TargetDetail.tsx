@@ -4,6 +4,17 @@ type TargetDetailProps = {
   temperature?: number
   warnings: number
   onClose?: () => void
+  lat?: number
+  lng?: number
+}
+
+// Helper to convert lat/lng to tile coordinates
+function latLngToTile(lat: number, lng: number, zoom: number) {
+  const n = Math.pow(2, zoom)
+  const x = Math.floor(((lng + 180) / 360) * n)
+  const latRad = (lat * Math.PI) / 180
+  const y = Math.floor((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n)
+  return { x, y, z: zoom }
 }
 
 export default function TargetDetail({
@@ -12,7 +23,16 @@ export default function TargetDetail({
   temperature,
   warnings,
   onClose,
+  lat,
+  lng,
 }: TargetDetailProps) {
+  // Generate satellite map thumbnail URL
+  const mapThumbnail = lat && lng
+    ? (() => {
+        const { x, y, z } = latLngToTile(lat, lng, 11)
+        return `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`
+      })()
+    : null
   return (
     <div 
       className="w-full bg-white rounded-xl shadow-xl p-3 sm:p-4 space-y-3 sm:space-y-4 border border-gray-100 animate-[fadeIn_0.25s_ease-out]"
@@ -25,20 +45,24 @@ export default function TargetDetail({
     >
       {/* Top section with map and location */}
       <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
-        {/* Map thumbnail */}
-        <div className="w-full sm:w-40 h-32 bg-teal-600 rounded-lg overflow-hidden relative shrink-0">
-          <div className="absolute inset-0 opacity-60">
-            {/* Placeholder for map - could integrate actual map later */}
-            <div className="w-full h-full bg-gradient-to-br from-teal-400 to-teal-700" />
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-8 h-8 text-red-500"
-            >
-              <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-            </svg>
+        {/* Map thumbnail with satellite imagery */}
+        <div className="w-full sm:w-40 h-32 rounded-lg overflow-hidden relative shrink-0 border-2 border-gray-200">
+          {mapThumbnail ? (
+            <img
+              src={mapThumbnail}
+              alt="Zone satellite view"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-blue-900 to-blue-700" />
+          )}
+          {/* Marker overlay - matching TargetPage style */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full">
+            <div className="w-10 h-10 bg-blue-600 rounded-full border-3 border-white shadow-xl flex items-center justify-center ring-4 ring-blue-300">
+              <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
           </div>
         </div>
 

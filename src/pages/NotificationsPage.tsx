@@ -204,6 +204,8 @@ export default function NotificationsPage() {
                     temperature={target.temperature}
                     warnings={target.warnings}
                     onClose={() => handleCardClick(target.id)}
+                    lat={target.lat}
+                    lng={target.lng}
                   />
                 </div>
               ) : (

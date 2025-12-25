@@ -12,6 +12,15 @@ type TargetCardProps = {
   lng?: number
 }
 
+// Helper to convert lat/lng to tile coordinates
+function latLngToTile(lat: number, lng: number, zoom: number) {
+  const n = Math.pow(2, zoom)
+  const x = Math.floor(((lng + 180) / 360) * n)
+  const latRad = (lat * Math.PI) / 180
+  const y = Math.floor((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n)
+  return { x, y, z: zoom }
+}
+
 export default function TargetCard({
   location,
   icon,
@@ -22,9 +31,12 @@ export default function TargetCard({
   lat,
   lng,
 }: TargetCardProps) {
-  // Generate satellite map thumbnail URL using ESRI
+  // Generate satellite map thumbnail URL using ESRI tiles
   const mapThumbnail = lat && lng
-    ? `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=${lng - 0.05},${lat - 0.05},${lng + 0.05},${lat + 0.05}&size=120,120&format=jpg&f=image`
+    ? (() => {
+        const { x, y, z } = latLngToTile(lat, lng, 12)
+        return `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`
+      })()
     : null
 
   const renderIcon = () => {
