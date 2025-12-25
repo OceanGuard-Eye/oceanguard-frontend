@@ -128,11 +128,11 @@ export default function TargetPage() {
     // Add zoom control to bottom right
     L.control.zoom({ position: 'bottomright' }).addTo(map)
 
-    // Add tile layer
+    // Add satellite tile layer (ESRI World Imagery)
     const tileLayer = L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
-        attribution: '© OpenStreetMap contributors',
+        attribution: '© Esri, Maxar, Earthstar Geographics',
         maxZoom: 18,
       }
     )

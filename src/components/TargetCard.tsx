@@ -8,6 +8,8 @@ type TargetCardProps = {
   severity?: "critical" | "warning" | "normal"
   timestamp?: Date
   onClick?: () => void
+  lat?: number
+  lng?: number
 }
 
 export default function TargetCard({
@@ -17,7 +19,14 @@ export default function TargetCard({
   severity = "normal",
   timestamp,
   onClick,
+  lat,
+  lng,
 }: TargetCardProps) {
+  // Generate satellite map thumbnail URL using ESRI
+  const mapThumbnail = lat && lng
+    ? `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=${lng - 0.05},${lat - 0.05},${lng + 0.05},${lat + 0.05}&size=120,120&format=jpg&f=image`
+    : null
+
   const renderIcon = () => {
     switch (icon) {
       case "temperature":
@@ -107,14 +116,26 @@ export default function TargetCard({
           </svg>
         </div>
       )}
-      <div className="flex items-center text-gray-400">
-        <svg
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-6 h-6 sm:w-8 sm:h-8"
-        >
-          <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-        </svg>
+      {/* Map Thumbnail */}
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden bg-gray-100 shrink-0 border-2 border-gray-200">
+        {mapThumbnail ? (
+          <img
+            src={mapThumbnail}
+            alt="Zone location"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-400">
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+            </svg>
+          </div>
+        )}
       </div>
 
       <div className="flex-1 text-left min-w-0">

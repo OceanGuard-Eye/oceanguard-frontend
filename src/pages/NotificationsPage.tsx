@@ -14,6 +14,8 @@ type TargetLocation = {
   temperature?: number
   warnings: number
   timestamp: Date
+  lat: number
+  lng: number
 }
 
 type SeverityLevel = "critical" | "warning" | "normal" | "all"
@@ -27,6 +29,8 @@ const mockTargets: TargetLocation[] = [
     temperature: 29,
     warnings: 3,
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+    lat: 13.2,
+    lng: 100.85,
   },
   {
     id: 2,
@@ -35,6 +39,8 @@ const mockTargets: TargetLocation[] = [
     dissolvedOxygen: 5.8,
     warnings: 1,
     timestamp: new Date(Date.now() - 30 * 60 * 1000),
+    lat: 13.05,
+    lng: 100.95,
   },
   {
     id: 3,
@@ -43,6 +49,8 @@ const mockTargets: TargetLocation[] = [
     dissolvedOxygen: 7.2,
     warnings: 0,
     timestamp: new Date(Date.now() - 5 * 60 * 1000),
+    lat: 12.9,
+    lng: 101.05,
   },
   {
     id: 4,
@@ -52,6 +60,8 @@ const mockTargets: TargetLocation[] = [
     temperature: 31,
     warnings: 4,
     timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
+    lat: 13.15,
+    lng: 101.1,
   },
   {
     id: 5,
@@ -60,6 +70,8 @@ const mockTargets: TargetLocation[] = [
     dissolvedOxygen: 8.1,
     warnings: 0,
     timestamp: new Date(Date.now() - 10 * 60 * 1000),
+    lat: 12.95,
+    lng: 100.75,
   },
 ]
 
@@ -202,6 +214,8 @@ export default function NotificationsPage() {
                   severity={getSeverity(target)}
                   timestamp={target.timestamp}
                   onClick={() => handleCardClick(target.id)}
+                  lat={target.lat}
+                  lng={target.lng}
                 />
               )}
             </div>
