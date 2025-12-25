@@ -21,7 +21,7 @@ type ZoneOverview = {
 const mockZones: ZoneOverview[] = [
   {
     id: 1,
-    name: "Zone A",
+    name: "Gulf of Thailand - Zone A",
     province: "Rayong",
     status: "warning",
     dissolvedOxygen: 5.2,
@@ -37,7 +37,7 @@ const mockZones: ZoneOverview[] = [
   },
   {
     id: 2,
-    name: "Zone B",
+    name: "Gulf of Thailand - Zone B",
     province: "Chonburi",
     status: "normal",
     dissolvedOxygen: 6.5,
@@ -53,7 +53,7 @@ const mockZones: ZoneOverview[] = [
   },
   {
     id: 3,
-    name: "Zone C",
+    name: "Gulf of Thailand - Zone C",
     province: "Chanthaburi",
     status: "critical",
     dissolvedOxygen: 3.8,
@@ -69,7 +69,7 @@ const mockZones: ZoneOverview[] = [
   },
   {
     id: 4,
-    name: "Zone D",
+    name: "Gulf of Thailand - Zone D",
     province: "Trat",
     status: "normal",
     dissolvedOxygen: 5.8,
@@ -85,7 +85,7 @@ const mockZones: ZoneOverview[] = [
   },
   {
     id: 5,
-    name: "Zone E",
+    name: "Gulf of Thailand - Zone E",
     province: "Samut Prakan",
     status: "normal",
     dissolvedOxygen: 6.2,
