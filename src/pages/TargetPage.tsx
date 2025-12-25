@@ -233,6 +233,30 @@ export default function TargetPage() {
     newTileLayer.addTo(mapRef.current)
   }, [viewMode])
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "critical": return "text-red-500"
+      case "warning": return "text-orange-500"
+      case "good": return "text-green-500"
+      default: return "text-gray-500"
+    }
+  }
+
+  const getStatusIcon = (status: string) => {
+    if (status === "critical" || status === "warning") {
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" className={`w-5 h-5 ${getStatusColor(status)}`}>
+          <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
+        </svg>
+      )
+    }
+    return (
+      <svg viewBox="0 0 24 24" fill="currentColor" className={`w-5 h-5 ${getStatusColor(status)}`}>
+        <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+      </svg>
+    )
+  }
+
   return (
     <div className="relative w-full h-[calc(100vh-112px)] overflow-hidden">
       {/* Map Container */}
@@ -295,36 +319,43 @@ export default function TargetPage() {
             </div>
 
             {/* Metrics List */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-2">
-              {/* Temperature */}
-              <div className="bg-[#E8D4C0] rounded-xl p-4">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-gray-800">Temperature</span>
-                  <span className="font-semibold text-gray-900">{selectedLocation.temperature}°C</span>
-                </div>
-              </div>
-
-              {/* Other Metrics */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
               {selectedLocation.metrics.map((metric, index) => (
                 <div
                   key={index}
-                  className="bg-[#E8D4C0] rounded-xl p-4"
+                  className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium text-gray-800">{metric.label}</span>
-                    <span className="font-semibold text-gray-900">
-                      {metric.value} <span className="text-sm text-gray-600">{metric.unit}</span>
-                    </span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-semibold text-gray-700">{metric.label}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-gray-900">
+                        {metric.value} <span className="text-sm text-gray-500">{metric.unit}</span>
+                      </span>
+                      {getStatusIcon(metric.status)}
+                    </div>
                   </div>
+                  {metric.range && (
+                    <div className="relative">
+                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all ${
+                            metric.status === "critical"
+                              ? "bg-gradient-to-r from-red-400 to-red-600"
+                              : metric.status === "warning"
+                              ? "bg-gradient-to-r from-yellow-400 to-orange-500"
+                              : "bg-gradient-to-r from-green-400 to-green-600"
+                          }`}
+                          style={{ width: `${(metric.range.current / metric.range.max) * 100}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>{metric.range.min}</span>
+                        <span>{metric.range.max}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
-            </div>
-
-            {/* Summarize Button */}
-            <div className="px-6 pb-6">
-              <button className="w-full bg-[#4B9ED6] hover:bg-[#3d8ac4] text-white font-semibold py-3 rounded-xl transition-colors">
-                Summarize
-              </button>
             </div>
           </div>
         </div>
